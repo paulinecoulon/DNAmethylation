@@ -4,6 +4,7 @@ Script containing every step to download and install required software (from Pac
 
 
 ############################ bax2bam ##########################
+
 #Convert all bax.h5 to one bam file (only PacBio RS) https://github.com/PacificBiosciences/blasr/wiki/bax2bam-wiki:-installation,-basic-usage-and-FAQ
 cd /pwd/ #pathway where the files (.bax.h5) source
 
@@ -13,6 +14,7 @@ bax2bam file1.bax.h5 file2.bax.h5 file3.bax.h5 -o movie --subread --pulsefeature
 
 
 ############################ pbcoretool ##########################
+
 # to work PacBio files http://pacificbiosciences.github.io/pbcoretools/pbcoretools.html, here I use it to merge two movie.subreads.bam files (one by each SMRT cell)
 
 ######## Installation
@@ -34,6 +36,7 @@ dataset create --type SubreadSet test2cell.subreadset.xml \ movie1.subreads.bam 
 
 
 ############################ Blasr ########################## 
+
 #to align Bam files to reference genome (one SMRT Cell or multiple SMRT cells by merging them before with pbcoretool)
 ######## Installation
 docker pull muccg/blasr
@@ -56,6 +59,7 @@ blasr test2cell.subreadset.xml ref.fasta --bam --out alignments.bam  # using the
 
 
 ############################ samtools ##########################  
+
 #https://github.com/samtools/samtools
 # To sort alignment file and to create index for fasta and alignment file
 
@@ -101,6 +105,7 @@ pbindex alignments.sorted.bam
 samtools faidx ref.fasta
 
 ############################ kinetictools ########################## 
+
 # Identification of DNA modifications only for PacBio RS, for PacBio Sequel they recommended using SMRT link
 #https://github.com/PacificBiosciences/kineticsTools
 ######## Installation
@@ -118,6 +123,7 @@ ipdSummary alignments.sorted.bam --reference ref.fasta --identify m6A,m4C --meth
 
 
 ############################ MotifMaker-master  ##########################
+
 #https://github.com/PacificBiosciences/MotifMaker
 cd /Users/pauline/MotifMaker-master
 java -Xms8192m -Xmx8192m -jar MotifMaker-assembly-0.3.1.jar find -f /pwd/MotifMaker-master/ref.fasta  -g /pwd/MotifMaker-master/basemod.gff  -o HSJ1testbasemod_motifsQ40.csv -m 40 #replace pwd by your pathway
